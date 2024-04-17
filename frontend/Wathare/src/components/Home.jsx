@@ -42,7 +42,7 @@ export default function Home() {
       axios.post(SERVERLESS_FUNCTION_URL, mydata)
         .then(function (response) {
           mydata = response.data;
-          console.log(JSON.stringify(response.data));
+          console.log("received data: "+JSON.stringify(response.data));
         })
         .catch(function (error) {
           console.log(error);
