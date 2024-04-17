@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         
         // Convert object to array of values
         const dataArray = Object.values(sensorData);
-        console.log("dataArray: " + dataArray);
+        console.log("dataArray: " + JSON.stringify(dataArray));
 
         // Filter data based on startTime and frequency
         let filteredData = dataArray.filter(item => {
