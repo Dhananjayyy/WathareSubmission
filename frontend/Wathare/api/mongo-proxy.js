@@ -11,7 +11,7 @@ export default async function handler(req, res) {
             "machine_status": 1,
             "vibration": 1
         },
-        "limit": 50000
+        "limit": 500000
     });
 
     var config = {
