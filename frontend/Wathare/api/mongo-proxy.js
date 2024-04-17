@@ -1,6 +1,9 @@
 import axios from 'axios';
 
 export default async function handler(req, res) {
+    const { startTime, frequency } = req.body;
+    console.log("startTime: " + startTime);
+    console.log("frequency: " + frequency);
     var data = JSON.stringify({
         "collection": "mySensorData",
         "database": "Wathare",

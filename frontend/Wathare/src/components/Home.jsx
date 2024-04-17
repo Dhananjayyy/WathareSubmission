@@ -28,10 +28,15 @@ export default function Home() {
       frequency = null;
     }
 
+    const requestData = {
+      startTime: startTime,
+      frequency: frequency
+    };
+
     const fetchedData = (startTime, frequency) => {
       const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
       let totaldata = null;
-      axios.post(SERVERLESS_FUNCTION_URL)
+      axios.post(SERVERLESS_FUNCTION_URL, requestData)
         .then(function (response) {
           setData(response.data.documents);
           totaldata = response.data.documents;
