@@ -38,7 +38,7 @@ export default function Home() {
 
     const fetchedData = async (startTime, frequency) => {
       const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
-      let total-data = null;
+      let totaldata = null;
       axios.post(SERVERLESS_FUNCTION_URL, mydata)
         .then(function (response) {
           mydata = response.data;
@@ -47,7 +47,7 @@ export default function Home() {
         .catch(function (error) {
           console.log(error);
         });
-      return total-data;
+      return totaldata;
     }
 
     try {
