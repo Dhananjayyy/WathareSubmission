@@ -4,6 +4,7 @@ export default async function handler(req, res) {
     const { startTime, frequency } = req.body;
     console.log("startTime: " + startTime);
     console.log("frequency: " + frequency);
+    
     var data = JSON.stringify({
         "collection": "mySensorData",
         "database": "Wathare",
@@ -27,12 +28,38 @@ export default async function handler(req, res) {
         },
         data: data
     };
-    
-  try {
-    const response = await axios(config)
-    res.status(response.status).json(response.data);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
+
+    try {
+        const response = await axios(config);
+
+        if (!frequency && !startTime) {
+            res.status(response.status).json(response.data);
+        }
+
+        const sensorData = response.data; // Assuming this is how your sensor data is received
+        
+        // Filter data based on startTime and frequency
+        let filteredData = sensorData.filter(item => {
+            const ts = new Date(item.ts);
+            switch (frequency) {
+                case "hour":
+                    return ts >= new Date(startTime) && ts < new Date(startTime + 60 * 60 * 1000);
+                case "eighthours":
+                    return ts >= new Date(startTime) && ts < new Date(startTime + 8 * 60 * 60 * 1000);
+                case "day":
+                    return ts >= new Date(startTime) && ts < new Date(startTime + 24 * 60 * 60 * 1000);
+                case "week":
+                    return ts >= new Date(startTime) && ts < new Date(startTime + 7 * 24 * 60 * 60 * 1000);
+                case "month":
+                    return ts.getFullYear() === new Date(startTime).getFullYear() && ts.getMonth() === new Date(startTime).getMonth();
+                default:
+                    return false;
+            }
+        });
+
+        res.status(response.status).json(filteredData);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 }
