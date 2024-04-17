@@ -1,6 +1,6 @@
 import { initializeDb, getCollection, closeDb } from "./mongodb.js";
 
-async function fetchedData(startTime, frequency) {
+export async function fetchedData(startTime, frequency) {
   try {
     await initializeDb(); // Ensure connection is initialized first
     const coll = await getCollection();
@@ -69,4 +69,3 @@ async function fetchedData(startTime, frequency) {
   }
 })();
 
-export { initializeDb, fetchedData };
