@@ -20,15 +20,7 @@ export default function Home() {
       _id: 1,
     },
   });
-    const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
-
-    axios.post(SERVERLESS_FUNCTION_URL, mydata)
-      .then(function (response) {
-        console.log(JSON.stringify(response.data));
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    
 
   const fetchData = async (hours) => {
     setLoading(true);
@@ -42,6 +34,20 @@ export default function Home() {
       frequency = "day";
     } else {
       frequency = null;
+    }
+
+    const fetchedData = async (startTime, frequency) => {
+      const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
+      let mydata = null;
+      axios.post(SERVERLESS_FUNCTION_URL, mydata)
+        .then(function (response) {
+          mydata = response.data;
+          console.log(JSON.stringify(response.data));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      return mydata;
     }
 
     try {
