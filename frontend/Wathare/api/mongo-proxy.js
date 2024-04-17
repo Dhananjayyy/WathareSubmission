@@ -1,4 +1,5 @@
 import axios from'axios';
+import module from 'module';
 
 module.exports = async (req, res) => {
   try {
@@ -7,7 +8,7 @@ module.exports = async (req, res) => {
       url: 'https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/findOne',
       headers: {
         'Content-Type': 'application/json',
-        'api-key': process.env.MONGODB_API_KEY // Make sure to set your MongoDB API key here
+        'api-key': process.env.MONGODB_API_KEY
       },
       data: req.body
     });
