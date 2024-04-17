@@ -10,9 +10,6 @@ export default async function handler(req, res) {
             "ts": 1,
             "machine_status": 1,
             "vibration": 1
-        },
-        "options": {
-            "limit": -1
         }
     });
 
