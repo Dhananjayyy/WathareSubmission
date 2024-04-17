@@ -44,6 +44,7 @@ export default function Home() {
       let totaldata = null;
       axios.post(SERVERLESS_FUNCTION_URL, mydata)
         .then(function (response) {
+          setData(response.data);
           totaldata = response.data;
           console.log("received data: "+JSON.stringify(response.data));
         })
