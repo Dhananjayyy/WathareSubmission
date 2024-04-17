@@ -1,40 +1,52 @@
-const exp = require("express");
-const fs = require("fs");
-const mongo = require('mongoose');
-const cors = require("cors");
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const db = require('./database');
 
-const app = exp();
 app.use(cors());
-app.use(exp.json());
+app.use(express.json());
 
-const raw_data = fs.readFileSync("./sample-data.json");
-const sample_data = JSON.parse(raw_data);
-if (sample_data) {
-  console.log('data read successfully');
-} else {
-  console.log('failed to read the data');
-}
-
-mongo.connect('mongodb://localhost:27017/Wathare')
-  .then(() => {
-    console.log('connected successfully to mongodb');
-    const dataCollection = mongo.connection.collection('mySensorData');
-    dataCollection.insertMany(sample_data)
-      .then(() => {
-        console.log('data inserted successfully into database: Wathare and collection: mySensorData');
-      })
-      .catch((err) => {
-        console.error('failed to insert data:', err);
-      });
-  })
-  .catch((err) => {
-    console.error('failed to connect to mongodb:', err);
-  });
-
-app.get("/hello", (req, res) => {
-  res.send("Hello World");
+app.get("/", (req, res) => {
+  res.send("hello");
 });
 
-app.listen(9000, function () {
-  console.log("server started on http://localhost:9000");
+// app.get("/sampleData", async (req, res) => {
+//   try {
+//     const data = await db.fetchData();
+//     res.send(data);
+//   } catch (err) {
+//     console.error('Failed to fetch sample data:', err);
+//     res.status(500).send('Internal Server Error');
+//   }
+// });
+
+app.get("/sampleData", async (req, res) => {
+  const { startTime, frequency } = req.query;
+  if (!startTime || !frequency) {
+    const data = await db.fetchData(startTime, frequency);
+    res.send(data);
+  } else {
+    try {
+      const data = await db.fetchData(startTime, frequency);
+      res.send(data);
+    } catch (err) {
+      console.error('Failed to fetch sample data:', err);
+      res.status(500).send('Internal Server Error');
+    }
+  }
 });
+
+app.post("/sampleData", async (req, res) => {
+  try {
+    await db.addData(req.body);
+    res.status(201).send('Data added successfully');
+  } catch (err) {
+    console.error('Failed to add data:', err);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
+db.initializeDb().catch(err => console.error(err));
+
+app.listen(9000, () => console.log('Server is running on port 9000'));
