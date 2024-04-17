@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     var config = {
         method: 'post',
-        url: 'https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/findOne',
+        url: 'https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/find',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Request-Headers': '*',
