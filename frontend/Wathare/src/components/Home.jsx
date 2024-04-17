@@ -12,18 +12,7 @@ export default function Home() {
     fetchData(24);
   }, []);
 
-  var mydata = JSON.stringify({
-    collection: "mySensorData",
-    database: "Wathare",
-    dataSource: "Wathare",
-    "projection": {
-      "_id": 1,
-      "ts": 1,
-      "machine_status": 1,
-      "vibration": 1
-  }
-  });
-    
+  
 
   const fetchData = async (hours) => {
     setLoading(true);
@@ -42,7 +31,7 @@ export default function Home() {
     const fetchedData = (startTime, frequency) => {
       const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
       let totaldata = null;
-      axios.post(SERVERLESS_FUNCTION_URL, mydata)
+      axios.post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
           setData(response.data.documents);
           totaldata = response.data.documents;
