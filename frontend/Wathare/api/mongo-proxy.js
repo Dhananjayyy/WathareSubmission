@@ -30,54 +30,47 @@ export default async function handler(req, res) {
     data: data,
   };
 
-  var formattedResponse = null;
   try {
-    const response = await axios(config);
+    const sensorData = await axios(config);
 
-    if (!frequency && !startTime) {
-      res.status(response.status).json(response.data);
+    if (!startTime || !frequency) {
+      res.status(200).json(sensorData);
     }
-
-    const start = new Date(startTime);
-    console.log("start: " + start);
-    let end;
-
-    switch (frequency) {
-      case "hour":
-        end = new Date(start.getTime() + 60 * 60 * 1000);
-        console.log("hour end: " + end);
-        break;
-      case "eighthours":
-        end = new Date(start.getTime() + 8 * (60 * 60 * 1000));
-        console.log("hour end: " + end);
-        break;
-      case "day":
-        end = new Date(start.getTime() + 24 * 60 * 60 * 1000);
-        console.log("day end: " + end);
-        break;
-      case "week":
-        end = new Date(start.getTime() + 7 * 24 * 60 * 60 * 1000);
-        console.log("week end: " + end);
-        break;
-      case "month":
-        end = new Date(
-          start.getFullYear(),
-          start.getMonth() + 1,
-          start.getDate()
-        );
-        console.log("month end: " + end);
-        break;
-      default:
-        return [];
-    }
-
-    // const cursor = coll.find({
-    //   ts: { $gte: start.toISOString(), $lt: end.toISOString() },
-    // });
-
-    res.status(response.status).json(response.data);
+    let filteredData = sensorData.filter((item) => {
+      const ts = new Date(item.ts);
+      switch (frequency) {
+        case "hour":
+          return (
+            ts >= new Date(startTime) &&
+            ts < new Date(startTime + 60 * 60 * 1000)
+          );
+        case "eighthours":
+          return (
+            ts >= new Date(startTime) &&
+            ts < new Date(startTime + 8 * 60 * 60 * 1000)
+          );
+        case "day":
+          return (
+            ts >= new Date(startTime) &&
+            ts < new Date(startTime + 24 * 60 * 60 * 1000)
+          );
+        case "week":
+          return (
+            ts >= new Date(startTime) &&
+            ts < new Date(startTime + 7 * 24 * 60 * 60 * 1000)
+          );
+        case "month":
+          return (
+            ts.getFullYear() === new Date(startTime).getFullYear() &&
+            ts.getMonth() === new Date(startTime).getMonth()
+          );
+        default:
+          return false;
+      }
+    });
+    res.status(200).json(filteredData);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Internal server error" });
+    console.error("Failed to fetch data", error);
+    res.status(500).send("Internal Server Error");
   }
 }
