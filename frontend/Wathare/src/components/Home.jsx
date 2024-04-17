@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import MyD3Chart from "./MyD3Chart";
 import LocationTemperature from "./LocationTemperature";
 import Simulator from "./Simulator";
+import { fetchedData } from "../database/processed-data.js";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -11,33 +12,28 @@ export default function Home() {
     fetchData(24);
   }, []);
 
-  const fetchData = (hours) => {
+  const fetchData = async (hours) => {
     setLoading(true);
     const startTime = '2024-01-21T15:00:00Z';
-    var frequency;
-    if(hours === 1){
+    let frequency;
+    if (hours === 1) {
       frequency = 'hour';
-    } else if(hours === 8){
+    } else if (hours === 8) {
       frequency = 'eighthours';
-    }
-    else if (hours === 24) {
+    } else if (hours === 24) {
       frequency = 'day';
     } else {
       frequency = null;
     }
 
-    const url = `http://localhost:9000/sampleData?startTime=${startTime}&frequency=${frequency}`;
-
-    fetch(url)
-      .then(response => response.json())
-      .then(data => {
-        setData(data);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error("Failed to fetch data", error);
-        setLoading(false);
-      });
+    try {
+      const fetchedDataResult = await fetchedData(startTime, frequency);
+      setData(fetchedDataResult);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch data", error);
+      setLoading(false);
+    }
   };
 
   return (
@@ -49,16 +45,16 @@ export default function Home() {
         <button className="btn btn-outline-primary m-2" onClick={() => fetchData(24)}>24 hr</button>
       </div>
       <div>
-      <h2>Cycle Status </h2>
-      {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
+        <h2>Cycle Status</h2>
+        {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
       </div>
       <div>
-      <h2>Temperature</h2>
-      {loading ? <p>Loading...</p> : <LocationTemperature/>}
+        <h2>Temperature</h2>
+        {loading ? <p>Loading...</p> : <LocationTemperature />}
       </div>
       <div>
         <h2> Simulator </h2>
-        <Simulator/>
+        <Simulator />
       </div>
     </div>
   );

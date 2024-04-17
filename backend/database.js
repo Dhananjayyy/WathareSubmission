@@ -2,6 +2,8 @@ const { MongoClient } = require("mongodb");
 const fs = require("fs");
 const moment = require('moment');
 
+// console.log("environment: " + JSON.stringify(process.env.NODE_ENV));
+
 let raw_data;
 try {
     raw_data = fs.readFileSync("./sample-data.json");
