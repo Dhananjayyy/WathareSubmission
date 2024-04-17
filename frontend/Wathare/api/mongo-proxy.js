@@ -35,6 +35,10 @@ export default async function handler(req, res) {
     console.log("response: " + JSON.stringify(response.data.documents));
     console.log("type of response: " + typeof(response.data.documents));
 
+    for(var i = 0; i < response.data.documents.length; i++){
+      response.data.documents[i].ts = 1;
+    }
+
     if (!frequency && !startTime) {
       res.status(response.status).json(response.data);
     }
