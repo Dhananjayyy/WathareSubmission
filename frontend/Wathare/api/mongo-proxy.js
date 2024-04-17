@@ -1,5 +1,4 @@
 import axios from'axios';
-import module from 'module';
 
 module.exports = async (req, res) => {
   try {
