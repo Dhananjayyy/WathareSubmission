@@ -12,16 +12,6 @@ export default function Home() {
     fetchData(24);
   }, []);
 
-  var mydata = JSON.stringify({
-    collection: "mySensorData",
-    database: "Wathare",
-    dataSource: "Wathare",
-    projection: {
-      _id: 1,
-    },
-  });
-    
-
   const fetchData = async (hours) => {
     setLoading(true);
     const startTime = "2024-01-21T15:00:00Z";
@@ -36,23 +26,19 @@ export default function Home() {
       frequency = null;
     }
 
-    const fetchedData = (startTime, frequency) => {
-      const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
-      let totaldata = null;
-      axios.post(SERVERLESS_FUNCTION_URL, mydata)
-        .then(function (response) {
-          mydata = response.data;
-          console.log("received data: "+JSON.stringify(response.data));
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      return totaldata;
-    }
+    const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
 
     try {
-      const fetchedDataResult = fetchedData(startTime, frequency);
-      setData(fetchedDataResult);
+      const response = await axios.post(SERVERLESS_FUNCTION_URL, {
+        collection: "mySensorData",
+        database: "Wathare",
+        dataSource: "Wathare",
+        projection: {
+          _id: 1,
+        },
+      });
+
+      setData(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch data", error);
