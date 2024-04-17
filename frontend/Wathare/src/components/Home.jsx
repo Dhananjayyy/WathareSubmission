@@ -20,25 +20,15 @@ export default function Home() {
       _id: 1,
     },
   });
+    const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
 
-  var config = {
-    method: "post",
-    url: "https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/findOne",
-    headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Request-Headers": "*",
-      "api-key": process.env.MONGODB_URI,
-    },
-    data: mydata,
-  };
-
-  axios(config)
-    .then(function (response) {
-      console.log(JSON.stringify(response.data));
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    axios.post(SERVERLESS_FUNCTION_URL, mydata)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
   const fetchData = async (hours) => {
     setLoading(true);
