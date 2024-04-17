@@ -6,7 +6,10 @@ export default async function handler(req, res) {
         "database": "Wathare",
         "dataSource": "Wathare",
         "projection": {
-            "_id": 1
+            "_id": 1,
+            "ts": 1,
+            "machine_status": 1,
+            "vibration": 1
         }
     });
 
