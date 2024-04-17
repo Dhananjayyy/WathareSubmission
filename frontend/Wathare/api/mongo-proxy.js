@@ -36,6 +36,9 @@ export default async function handler(req, res) {
     if (!startTime || !frequency) {
       res.status(200).json(sensorData);
     }
+
+    console.log("type" + typeof(sensorData));
+    return;
     let filteredData = sensorData.filter((item) => {
       const ts = new Date(item.ts);
       switch (frequency) {
