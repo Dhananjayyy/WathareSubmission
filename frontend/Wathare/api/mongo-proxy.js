@@ -32,8 +32,8 @@ export default async function handler(req, res) {
 
   try {
     const response = await axios(config);
-    console.log("response: " + JSON.stringify(response.data));
-    console.log("type of response: " + typeof(response.data));
+    console.log("response: " + JSON.stringify(response.data.documents));
+    console.log("type of response: " + typeof(response.data.documents));
 
     if (!frequency && !startTime) {
       res.status(response.status).json(response.data);
