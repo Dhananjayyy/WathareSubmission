@@ -10,15 +10,12 @@ export default async function handler(req, res) {
             "ts": 1,
             "machine_status": 1,
             "vibration": 1
-        },
-        "options": {
-            "limit": 0
         }
     });
 
     var config = {
         method: 'post',
-        url: 'https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/find',
+        url: 'https://ap-south-1.aws.data.mongodb-api.com/app/data-iogss/endpoint/data/v1/action/findAll',
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Request-Headers': '*',
