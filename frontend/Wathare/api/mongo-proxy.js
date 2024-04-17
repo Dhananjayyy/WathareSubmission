@@ -10,7 +10,8 @@ export default async function handler(req, res) {
             "ts": 1,
             "machine_status": 1,
             "vibration": 1
-        }
+        },
+        "limit": 1000 
     });
 
     var config = {
