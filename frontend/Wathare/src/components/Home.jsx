@@ -54,8 +54,6 @@ export default function Home() {
       return totaldata;
     }
 
-    
-
     try {
       const fetchedDataResult = fetchedData(startTime, frequency);
       setData(fetchedDataResult);
