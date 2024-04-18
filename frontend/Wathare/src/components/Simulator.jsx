@@ -17,7 +17,7 @@ const Simulator = () => {
     const startDate = new Date(startTime); // Parse the user-entered start time
     const startTimeMillis = startDate.getTime(); // Get the start time in milliseconds
 
-    if (isNaN(startTimeMillis)) {
+    if (!startTime) {
       alert("Please enter a valid start time.");
       return;
     }
