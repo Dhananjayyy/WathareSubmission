@@ -2,7 +2,7 @@ import { useState } from "react";
 import MyD3Chart from "./MyD3Chart";
 
 const Simulator = () => {
-  const [startTime, setStartTime] = useState("");
+  const [startTime, setStartTime] = useState('');
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
   const [data, setData] = useState(null);
@@ -10,36 +10,29 @@ const Simulator = () => {
 
   const viewSimulation = () => {
     setShowSimulation(true);
-  };
+  }
 
-  const simulateData = (startTime) => {
+  const simulateData = () => {
     const simulatedData = [];
-    const startDate = new Date(startTime); // Parse the user-entered start time
-    const startTimeMillis = startDate.getTime(); // Get the start time in milliseconds
-
+    const getDate = new Date(startTime);
+    const startTimeMillis = getDate.getMilliseconds();
+  
     if (!startTime) {
-      alert("Please enter a valid start time.");
+      alert('Please select valid start time.');
       return;
     }
     let lastTimestamp = startTimeMillis;
-
+  
     for (let i = 0; i < numEntries; i++) {
       const timestamp = new Date(lastTimestamp).toISOString();
       const machineStatus = Math.floor(Math.random() * 2);
-      const vibration = Math.floor(
-        Math.random() * (vibrationRange.max - vibrationRange.min) +
-          vibrationRange.min
-      );
-      simulatedData.push({
-        ts: timestamp,
-        machine_status: machineStatus,
-        vibration: vibration,
-      });
+      const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
+      simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
       lastTimestamp += 1000;
     }
-
+  
     setData(simulatedData);
-    console.log("simulated data: " + JSON.stringify(simulatedData));
+    console.log("simulated data: "+JSON.stringify(simulatedData));
     setShowSimulation(true);
   };
 
