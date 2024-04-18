@@ -5,25 +5,29 @@ const Simulator = () => {
   const [startTime, setStartTime] = useState('');
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState([]);
   const [showSimulation, setShowSimulation] = useState(false);
 
-  const viewSimulation = () => {
+  const handleViewSimulation = () => {
     setShowSimulation(true);
-  }
+  };
+
+  const handleDownloadJson = () => {
+    simulateData();
+  };
 
   const simulateData = () => {
     // Simulate data based on the selected ranges
     const simulatedData = [];
     const startTimeMillis = new Date(startTime).getTime();
-  
+
     if (!startTime) {
       alert('Please select a valid start time.');
       return;
     }
-  
+
     let lastTimestamp = startTimeMillis;
-  
+
     for (let i = 0; i < numEntries; i++) {
       const timestamp = new Date(lastTimestamp).toISOString();
       const machineStatus = Math.floor(Math.random() * 2);
@@ -31,8 +35,15 @@ const Simulator = () => {
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
       lastTimestamp += 1000;
     }
-  
-    setData(simulatedData);
+
+    const jsonOutput = JSON.stringify(simulatedData, null, 2);
+
+    const element = document.createElement('a');
+    const file = new Blob([jsonOutput], { type: 'text/plain' });
+    element.href = URL.createObjectURL(file);
+    element.download = 'simulated_data.json';
+    document.body.appendChild(element);
+    element.click();
   };
 
   return (
@@ -71,10 +82,10 @@ const Simulator = () => {
       </div>
       <div className="row" style={{ marginTop: "10px" }}>
         <div className="col">
-          <button className="btn btn-primary" onClick={viewSimulation}>View Simulation</button>
+          <button className="btn btn-primary" onClick={handleViewSimulation}>View Simulation</button>
         </div>
         <div className="col">
-          <button className="btn btn-primary" onClick={simulateData}>Download Json</button>
+          <button className="btn btn-primary" onClick={handleDownloadJson}>Download Json</button>
         </div>
       </div>
       {showSimulation && (
