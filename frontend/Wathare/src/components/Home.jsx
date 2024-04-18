@@ -9,7 +9,7 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData(24); // Default fetch for 24 hours data on component mount
+    fetchData(24);
   }, []);
 
   const fetchData = async (hours) => {

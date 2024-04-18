@@ -32,7 +32,7 @@ const Simulator = () => {
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000; // Increment by 1 second
+      lastTimestamp += 1000;
     }
 
     setData(simulatedData);
