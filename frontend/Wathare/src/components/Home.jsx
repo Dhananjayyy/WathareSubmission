@@ -66,12 +66,12 @@ export default function Home() {
         <h2>Cycle Status</h2>
         {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
     </div>
-    <br/>
+    <hr/>
     <div className="mt-2 mb-2">
         <h2>Temperature</h2>
         {loading ? <p>Loading...</p> : <LocationTemperature />}
     </div>
-    <br/>
+    <hr/>
     <div className="mt-2 mb-2">
         <h2> Simulator </h2>
         <Simulator />
