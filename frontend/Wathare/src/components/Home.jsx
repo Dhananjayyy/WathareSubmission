@@ -19,7 +19,7 @@ export default function Home() {
     if (hours === 1) frequency = "hour";
     else if (hours === 8) frequency = "eighthours";
     else if (hours === 24) frequency = "day";
-    else return; // Exit if no valid hours are provided
+    else return;
 
     const proxy = "/api/mongo-proxy";
     try {
