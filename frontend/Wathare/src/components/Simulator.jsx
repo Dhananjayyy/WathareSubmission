@@ -1,5 +1,6 @@
 import { useState } from "react";
 import MyD3Chart from "./MyD3Chart";
+import { set } from "mongoose";
 
 const Simulator = () => {
   const [startTime, setStartTime] = useState('');
@@ -31,6 +32,7 @@ const Simulator = () => {
     }
   
     setData(simulatedData);
+    setShowSimulation(true);
   };
 
   return (
@@ -64,7 +66,7 @@ const Simulator = () => {
       <div className="row" style={{ marginTop: "10px" }}>
         <div className="col">
           <label className="form-label">Number of Entries:</label>
-          <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(e.target.value)} />
+          <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(parseInt(e.target.value))} />
         </div>
       </div>
       <div className="row" style={{ marginTop: "10px" }}>
