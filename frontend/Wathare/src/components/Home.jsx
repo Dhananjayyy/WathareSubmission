@@ -6,6 +6,7 @@ import axios from "axios";
 
 export default function Home() {
   const [data, setData] = useState([]);
+  const [filterData, setFilterData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -32,7 +33,6 @@ export default function Home() {
       axios
         .post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
-          setData(response.data.documents);
           totaldata = response.data.documents;
         })
         .catch(function (error) {
@@ -44,7 +44,41 @@ export default function Home() {
     try {
       const fetchedDataResult = fetchedData(startTime, frequency);
       setData(fetchedDataResult);
-      console.log("fetchedDataResult: " + JSON.stringify(data));
+
+
+
+
+
+
+      const sensorData = fetchedDataResult; // Assuming this is how your sensor data is received
+        
+      // Filter data based on startTime and frequency
+      let filteredData = sensorData.filter(item => {
+          const ts = new Date(item.ts);
+          switch (frequency) {
+              case "hour":
+                  return ts >= new Date(startTime) && ts < new Date(startTime + 60 * 60 * 1000);
+              case "eighthours":
+                  return ts >= new Date(startTime) && ts < new Date(startTime + 8 * 60 * 60 * 1000);
+              case "day":
+                  return ts >= new Date(startTime) && ts < new Date(startTime + 24 * 60 * 60 * 1000);
+              case "week":
+                  return ts >= new Date(startTime) && ts < new Date(startTime + 7 * 24 * 60 * 60 * 1000);
+              case "month":
+                  return ts.getFullYear() === new Date(startTime).getFullYear() && ts.getMonth() === new Date(startTime).getMonth();
+              default:
+                  return false;
+          }
+      });
+
+      setFilterData(filteredData);
+
+
+
+
+
+
+      console.log("sensor data: " + sensorData.toString());
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch data", error);
@@ -77,7 +111,7 @@ export default function Home() {
       </div>
       <div>
         <h2>Cycle Status</h2>
-        {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
+        {loading ? <p>Loading...</p> : <MyD3Chart data={filterData} />}
       </div>
       <div>
         <h2>Temperature</h2>
