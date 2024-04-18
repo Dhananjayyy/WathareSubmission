@@ -12,8 +12,6 @@ export default function Home() {
     fetchData(24);
   }, []);
 
-  
-
   const fetchData = async (hours) => {
     setLoading(true);
     const startTime = "2024-01-21T15:00:00Z";
@@ -28,29 +26,25 @@ export default function Home() {
       frequency = null;
     }
 
-    const requestData = {
-      startTime: startTime,
-      frequency: frequency
-    };
-
     const fetchedData = (startTime, frequency) => {
-      const SERVERLESS_FUNCTION_URL = '/api/mongo-proxy';
+      const SERVERLESS_FUNCTION_URL = "/api/mongo-proxy";
       let totaldata = null;
-      axios.post(SERVERLESS_FUNCTION_URL, requestData)
+      axios
+        .post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
           setData(response.data.documents);
           totaldata = response.data.documents;
-          console.log("received data: "+JSON.stringify(response.data.documents));
         })
         .catch(function (error) {
           console.log(error);
         });
       return totaldata;
-    }
+    };
 
     try {
       const fetchedDataResult = fetchedData(startTime, frequency);
       setData(fetchedDataResult);
+      console.log("fetchedDataResult: " + JSON.stringify(data));
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch data", error);
