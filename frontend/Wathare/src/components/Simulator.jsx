@@ -14,20 +14,21 @@ const Simulator = () => {
 
   const simulateData = () => {
     const simulatedData = [];
-    const startTimeMillis = new Date(startTime).getTime();
   
     if (!startTime) {
       alert('Please select a valid start time.');
       return;
     }
-    let lastTimestamp = startTimeMillis;
+  
+    const startTimeMillis = new Date(startTime).getTime();
+    let timestamp = startTimeMillis;
   
     for (let i = 0; i < numEntries; i++) {
-      const timestamp = new Date(lastTimestamp).toISOString();
+      const formattedTimestamp = new Date(timestamp).toISOString();
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
-      simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000;
+      simulatedData.push({ ts: formattedTimestamp, machine_status: machineStatus, vibration: vibration });
+      timestamp += 1000;
     }
   
     setData(simulatedData);
