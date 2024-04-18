@@ -83,8 +83,6 @@ return (
   </div>
 </div>
 
-</div>
-
 );
 };
 
