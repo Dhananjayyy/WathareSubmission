@@ -57,9 +57,9 @@ export default function Home() {
         <h1>Wathare Infotech Solutions Submission</h1>
     </div>
     <div className="d-flex justify-content-end">
-        <button className="btn btn-light m-1" onClick={() => fetchData(1)}>1 hr</button>
-        <button className="btn btn-primary m-1" onClick={() => fetchData(8)}>8 hr</button>
-        <button className="btn btn-dark m-1" onClick={() => fetchData(24)}>24 hr</button>
+        <button className="btn btn-light m-3" onClick={() => fetchData(1)}>1 hr</button>
+        <button className="btn btn-primary m-3" onClick={() => fetchData(8)}>8 hr</button>
+        <button className="btn btn-dark m-3" onClick={() => fetchData(24)}>24 hr</button>
     </div>
     <div className="text-center content-center">
         <h2>Cycle Status</h2>
