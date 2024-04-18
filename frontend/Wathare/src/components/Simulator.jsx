@@ -13,13 +13,18 @@ const Simulator = () => {
   }
 
   const simulateData = () => {
-    const simulatedData = [];
-    const startTimeMillis = new Date(startTime).getTime();
-  
-    if (startTime == '') {
+    if (startTime === '') {
       alert('Please select a valid start time.');
       return;
     }
+  
+    const startTimeMillis = new Date(startTime).getTime();
+    if (isNaN(startTimeMillis)) {
+      alert('Invalid start time. Please select a valid date and time.');
+      return;
+    }
+  
+    const simulatedData = [];
     let lastTimestamp = startTimeMillis;
   
     for (let i = 0; i < numEntries; i++) {
@@ -31,9 +36,10 @@ const Simulator = () => {
     }
   
     setData(simulatedData);
-    console.log("simulated data: "+JSON.stringify(simulatedData));
+    console.log("simulated data: " + JSON.stringify(simulatedData));
     setShowSimulation(true);
   };
+  
 
   return (
     <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
