@@ -44,38 +44,6 @@ export default function Home() {
     try {
       const fetchedDataResult = fetchedData(startTime, frequency);
       setData(fetchedDataResult);
-
-
-      var sensorData = fetchedDataResult;
-
-      console.log(sensorData)
-
-      let filteredData = sensorData.filter(item => {
-          const ts = new Date(item.ts);
-          switch (frequency) {
-              case "hour":
-                  return ts >= new Date(startTime) && ts < new Date(startTime + 60 * 60 * 1000);
-              case "eighthours":
-                  return ts >= new Date(startTime) && ts < new Date(startTime + 8 * 60 * 60 * 1000);
-              case "day":
-                  return ts >= new Date(startTime) && ts < new Date(startTime + 24 * 60 * 60 * 1000);
-              case "week":
-                  return ts >= new Date(startTime) && ts < new Date(startTime + 7 * 24 * 60 * 60 * 1000);
-              case "month":
-                  return ts.getFullYear() === new Date(startTime).getFullYear() && ts.getMonth() === new Date(startTime).getMonth();
-              default:
-                  return false;
-          }
-      });
-
-      setFilterData(filteredData);
-
-
-
-
-
-
-      console.log("sensor data: " + sensorData.toString());
       setLoading(false);
     } catch (error) {
       console.error("Failed to fetch data", error);
