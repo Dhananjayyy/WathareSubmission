@@ -3,7 +3,6 @@ import MyD3Chart from "./MyD3Chart";
 import LocationTemperature from "./LocationTemperature";
 import Simulator from "./Simulator";
 import axios from "axios";
-import { set } from "mongoose";
 
 export default function Home() {
   const [data, setData] = useState([]);
@@ -35,6 +34,7 @@ export default function Home() {
         .post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
           totaldata = response.data.documents;
+          console.log(response.data.documents);
           setData(response.data.documents);
         })
         .catch(function (error) {
