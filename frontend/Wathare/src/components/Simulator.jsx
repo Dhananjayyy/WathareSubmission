@@ -17,7 +17,7 @@ const Simulator = () => {
     const startTimeMillis = new Date(startTime).getTime();
   
     if (!startTime) {
-      alert('Please select a valid start time.');
+      alert('Please select valid start time.');
       return;
     }
     let lastTimestamp = startTimeMillis;
