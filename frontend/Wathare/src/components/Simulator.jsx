@@ -72,14 +72,12 @@ const Simulator = () => {
         <div className="col">
           <button className="btn btn-primary" onClick={simulateData}>View Simulation</button>
         </div>
-      </div>
-      {showSimulation && (
-        <div className="row" style={{ marginTop: "10px" }}>
-          <div className="col">
+        {showSimulation && (
+          <div className="col" style={{ marginTop: "10px" }}>
             <MyD3Chart data={data} />
-          </div>
         </div>
       )}
+      </div>
     </div>
   );
 };
