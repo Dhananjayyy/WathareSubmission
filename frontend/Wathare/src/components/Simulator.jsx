@@ -24,7 +24,8 @@ const Simulator = () => {
     let timestamp = startTimeMillis;
   
     for (let i = 0; i < numEntries; i++) {
-      const formattedTimestamp = new Date(timestamp).toISOString();
+      // Format the timestamp using local time
+      const formattedTimestamp = new Date(timestamp).toLocaleString();
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
       simulatedData.push({ ts: formattedTimestamp, machine_status: machineStatus, vibration: vibration });
@@ -34,6 +35,7 @@ const Simulator = () => {
     setData(simulatedData);
     setShowSimulation(true);
   };
+  
 
   return (
     <div className="container text-center content-center" style={{ justifyContent: "center", width: "80%", margin: "auto", textAlign: "center" }}>
