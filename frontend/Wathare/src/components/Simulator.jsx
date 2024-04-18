@@ -39,31 +39,50 @@ const Simulator = () => {
   };
 
 return (
-    <div style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
-    <label className="form-label">Start Time:</label>
-    <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-    <br />
-    <label className="form-label">End Time:</label>
-    <input type="datetime-local" className="form-control" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
-    <br />
-    <label className="form-label">Vibration Range:</label>
-    <input
-        type="number"
-        className="form-control"
-        value={vibrationRange.min}
-        onChange={(e) => setVibrationRange({ ...vibrationRange, min: parseInt(e.target.value) })}
-    />
-    <input
-        type="number"
-        className="form-control"
-        value={vibrationRange.max}
-        onChange={(e) => setVibrationRange({ ...vibrationRange, max: parseInt(e.target.value) })}
-    />
-    <br />
-    <label className="form-label">Number of Entries:</label>
-    <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(e.target.value)} />
-    <br />
-    <button className="btn btn-primary" onClick={simulateData}>Download Json</button>
+  <div style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
+  <div className="row">
+      <div className="col-md-6">
+          <label className="form-label">Start Time:</label>
+          <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+      </div>
+      <div className="col-md-6">
+          <label className="form-label">End Time:</label>
+          <input type="datetime-local" className="form-control" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+      </div>
+  </div>
+  <div className="row" style={{ marginTop: "10px" }}>
+      <div className="col-md-6">
+          <label className="form-label">Min Vibration:</label>
+          <input
+              type="number"
+              className="form-control"
+              value={vibrationRange.min}
+              onChange={(e) => setVibrationRange({ ...vibrationRange, min: parseInt(e.target.value) })}
+          />
+      </div>
+      <div className="col-md-6">
+          <label className="form-label">Max Vibration:</label>
+          <input
+              type="number"
+              className="form-control"
+              value={vibrationRange.max}
+              onChange={(e) => setVibrationRange({ ...vibrationRange, max: parseInt(e.target.value) })}
+          />
+      </div>
+  </div>
+  <div className="row" style={{ marginTop: "10px" }}>
+      <div className="col">
+          <label className="form-label">Number of Entries:</label>
+          <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(e.target.value)} />
+      </div>
+  </div>
+  <div className="row" style={{ marginTop: "10px" }}>
+      <div className="col">
+          <button className="btn btn-primary" onClick={simulateData}>Download Json</button>
+      </div>
+  </div>
+</div>
+
 </div>
 
 );
