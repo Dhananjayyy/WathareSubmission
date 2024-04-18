@@ -33,20 +33,16 @@ export default function Home() {
       axios
         .post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
-          totaldata = response.data.documents;
+          setData(response.data.documents);
         })
         .catch(function (error) {
           console.log(error);
         });
-      return totaldata;
     };
 
     try {
-      const fetchedDataResult = fetchedData(startTime, frequency);
-      setData(fetchedDataResult);
 
-
-      var sensorData = fetchedDataResult;
+      var sensorData = data;
 
       console.log(sensorData.toString());
 
