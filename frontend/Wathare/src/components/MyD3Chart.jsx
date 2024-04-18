@@ -136,7 +136,7 @@ export default function MyD3Chart({ data }) {
         .attr("x", margin.left)
         .attr("y", margin.top / 2)
         .attr("text-anchor", "start")
-        .style("font-size", "8px")
+        .style("font-size", "16px")
         .text("Cycle status");
 
       g.selectAll(".bar")
