@@ -14,11 +14,10 @@ const Simulator = () => {
 
   const simulateData = () => {
     const simulatedData = [];
-    const getDate = new Date(startTime);
-    const startTimeMillis = getDate.getMilliseconds();
+    const startTimeMillis = new Date(startTime).getTime();
   
-    if (startTime === '') {
-      alert('Please select valid start time.');
+    if (startTime == '') {
+      alert('Please select a valid start time.');
       return;
     }
     let lastTimestamp = startTimeMillis;
@@ -37,81 +36,49 @@ const Simulator = () => {
   };
 
   return (
-    <div>
-      <div
-        className="container text-center content-center"
-        style={{
-          justifyContent: "center",
-          width: "50%",
-          margin: "auto",
-          textAlign: "center",
-        }}
-      >
-        <div className="row">
-          <div className="col">
-            <label className="form-label">Start Time:</label>
-            <input
-              type="datetime-local"
-              className="form-control"
-              value={startTime}
-              onChange={(e) => setStartTime(e.target.value)}
-            />
-          </div>
-        </div>
-        <div className="row" style={{ marginTop: "10px" }}>
-          <div className="col-md-6">
-            <label className="form-label">Min Vibration:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={vibrationRange.min}
-              onChange={(e) =>
-                setVibrationRange({
-                  ...vibrationRange,
-                  min: parseInt(e.target.value),
-                })
-              }
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label">Max Vibration:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={vibrationRange.max}
-              onChange={(e) =>
-                setVibrationRange({
-                  ...vibrationRange,
-                  max: parseInt(e.target.value),
-                })
-              }
-            />
-          </div>
-        </div>
-        <div className="row" style={{ marginTop: "10px" }}>
-          <div className="col">
-            <label className="form-label">Number of Entries:</label>
-            <input
-              type="number"
-              className="form-control"
-              value={numEntries}
-              onChange={(e) => setNumEntries(parseInt(e.target.value))}
-            />
-          </div>
+    <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
+      <div className="row">
+        <div className="col">
+          <label className="form-label">Start Time:</label>
+          <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
         </div>
       </div>
-<div className="">
-      <div className="">
-        <button className="btn btn-primary" onClick={simulateData}>
-          View Simulation
-        </button>
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col-md-6">
+          <label className="form-label">Min Vibration:</label>
+          <input
+            type="number"
+            className="form-control"
+            value={vibrationRange.min}
+            onChange={(e) => setVibrationRange({ ...vibrationRange, min: parseInt(e.target.value) })}
+          />
+        </div>
+        <div className="col-md-6">
+          <label className="form-label">Max Vibration:</label>
+          <input
+            type="number"
+            className="form-control"
+            value={vibrationRange.max}
+            onChange={(e) => setVibrationRange({ ...vibrationRange, max: parseInt(e.target.value) })}
+          />
+        </div>
       </div>
-      {showSimulation && (
-        <div className="" style={{ marginTop: "10px" }}>
-          <MyD3Chart data={data} style={{ width: "100%" }} />
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col">
+          <label className="form-label">Number of Entries:</label>
+          <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(parseInt(e.target.value))} />
+        </div>
+      </div>
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col">
+          <button className="btn btn-primary" onClick={simulateData}>View Simulation</button>
+        </div>
+        {showSimulation && (
+          <div className="col" style={{ marginTop: "10px" }}>
+            <MyD3Chart data={data} style={{ width: "100%" }} />
         </div>
       )}
-    </div>
+      </div>
     </div>
   );
 };
