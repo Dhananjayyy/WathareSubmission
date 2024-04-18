@@ -35,7 +35,7 @@ const Simulator = () => {
   };
 
   return (
-    <div className="container text-center content-center" style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
+    <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
       <div className="row">
         <div className="col">
           <label className="form-label">Start Time:</label>
