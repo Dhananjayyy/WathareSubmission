@@ -55,9 +55,9 @@ export default function Home() {
     <div className="container mt-3 mb-3 text-center content-center">
       <h1>Wathare Infotech Solutions Submission</h1>
       <div>
-        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(1)}>1 hr</button>
-        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(8)}>8 hr</button>
-        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(24)}>24 hr</button>
+        <button className="btn btn-light m-2" onClick={() => fetchData(1)}>1 hr</button>
+        <button className="btn btn-primary m-2" onClick={() => fetchData(8)}>8 hr</button>
+        <button className="btn btn-dark m-2" onClick={() => fetchData(24)}>24 hr</button>
       </div>
       <div>
         <h2>Cycle Status</h2>
