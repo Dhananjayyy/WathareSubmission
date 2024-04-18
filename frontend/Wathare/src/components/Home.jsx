@@ -46,13 +46,10 @@ export default function Home() {
       setData(fetchedDataResult);
 
 
+      var sensorData = fetchedDataResult;
 
+      console.log(sensorData.toString());
 
-
-
-      const sensorData = fetchedDataResult; // Assuming this is how your sensor data is received
-        
-      // Filter data based on startTime and frequency
       let filteredData = sensorData.filter(item => {
           const ts = new Date(item.ts);
           switch (frequency) {
