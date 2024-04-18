@@ -1,6 +1,5 @@
 import { useState } from "react";
 import MyD3Chart from "./MyD3Chart";
-import { set } from "mongoose";
 
 const Simulator = () => {
   const [startTime, setStartTime] = useState('');
