@@ -56,7 +56,7 @@ export default function Home() {
     <div className="">
         <h1>Wathare Infotech Solutions Submission</h1>
     </div>
-    <div className="d-flex justify-content-end">
+    <div className="">
         <button className="btn btn-light m-3" onClick={() => fetchData(1)}>1 hr</button>
         <button className="btn btn-primary m-3" onClick={() => fetchData(8)}>8 hr</button>
         <button className="btn btn-secondary m-3" onClick={() => fetchData(24)}>24 hr</button>

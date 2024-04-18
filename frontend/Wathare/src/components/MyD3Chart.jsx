@@ -132,6 +132,13 @@ export default function MyD3Chart({ data }) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
+        svg.append("text")
+        .attr("x", margin.left)
+        .attr("y", margin.top / 2)
+        .attr("text-anchor", "start")
+        .style("font-size", "8px")
+        .text("Cycle status");
+
       g.selectAll(".bar")
         .data(preprocessedData)
         .enter()
