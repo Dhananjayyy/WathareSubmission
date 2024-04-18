@@ -5,6 +5,7 @@ const Simulator = () => {
   const [endTime, setEndTime] = useState('');
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
+  const [numMissingSamples, setNumMissingSamples] = useState(0); // State for tracking number of missing samples to remove
 
   const simulateData = () => {
     // Simulate data based on the selected ranges
@@ -17,15 +18,26 @@ const Simulator = () => {
       return;
     }
 
-    let lastTimestamp = startTimeMillis;
+    // Generate data for each second between start and end time
+    let currentTimestamp = startTimeMillis;
 
-    for (let i = 0; i < numEntries; i++) {
-      const timestamp = new Date(lastTimestamp).toISOString();
-      const machineStatus = Math.floor(Math.random() * 2);
-      const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
-      simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
+    while (currentTimestamp <= endTimeMillis) {
+      const timestamp = new Date(currentTimestamp).toISOString();
+      const existingData = simulatedData.find(entry => entry.ts === timestamp);
 
-      if (lastTimestamp > endTimeMillis) break;
+      if (!existingData) {
+        const machineStatus = Math.floor(Math.random() * 2);
+        const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
+        simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
+      }
+
+      currentTimestamp += 1000; // Increment by one second
+    }
+
+    // Remove specified number of missing samples
+    for (let i = 0; i < numMissingSamples; i++) {
+      const missingIndex = Math.floor(Math.random() * simulatedData.length);
+      simulatedData.splice(missingIndex, 1);
     }
 
     const jsonOutput = JSON.stringify(simulatedData, null, 2);
@@ -38,20 +50,20 @@ const Simulator = () => {
     element.click();
   };
 
-return (
-  <div style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
-  <div className="row">
-      <div className="col-md-6">
+  return (
+    <div style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
+      <div className="row">
+        <div className="col-md-6">
           <label className="form-label">Start Time:</label>
           <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
-      </div>
-      <div className="col-md-6">
+        </div>
+        <div className="col-md-6">
           <label className="form-label">End Time:</label>
           <input type="datetime-local" className="form-control" value={endTime} onChange={(e) => setEndTime(e.target.value)} />
+        </div>
       </div>
-  </div>
-  <div className="row" style={{ marginTop: "10px" }}>
-      <div className="col-md-6">
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col-md-6">
           <label className="form-label">Min Vibration:</label>
           <input
               type="number"
@@ -59,8 +71,8 @@ return (
               value={vibrationRange.min}
               onChange={(e) => setVibrationRange({ ...vibrationRange, min: parseInt(e.target.value) })}
           />
-      </div>
-      <div className="col-md-6">
+        </div>
+        <div className="col-md-6">
           <label className="form-label">Max Vibration:</label>
           <input
               type="number"
@@ -68,22 +80,32 @@ return (
               value={vibrationRange.max}
               onChange={(e) => setVibrationRange({ ...vibrationRange, max: parseInt(e.target.value) })}
           />
+        </div>
       </div>
-  </div>
-  <div className="row" style={{ marginTop: "10px" }}>
-      <div className="col">
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col">
           <label className="form-label">Number of Entries:</label>
           <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(e.target.value)} />
+        </div>
       </div>
-  </div>
-  <div className="row" style={{ marginTop: "10px" }}>
-      <div className="col">
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col">
+          <label className="form-label">Missing Samples to Remove:</label>
+          <input
+              type="number"
+              className="form-control"
+              value={numMissingSamples}
+              onChange={(e) => setNumMissingSamples(parseInt(e.target.value))}
+          />
+        </div>
+      </div>
+      <div className="row" style={{ marginTop: "10px" }}>
+        <div className="col">
           <button className="btn btn-primary" onClick={simulateData}>Download Json</button>
+        </div>
       </div>
-  </div>
-</div>
-
-);
+    </div>
+  );
 };
 
 export default Simulator;
