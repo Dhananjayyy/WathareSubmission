@@ -1,9 +1,16 @@
 import { useState } from "react";
+import MyD3Chart from "./MyD3Chart";
 
 const Simulator = () => {
   const [startTime, setStartTime] = useState('');
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
+  const [data, setData] = useState([]);
+  const [showSimulation, setShowSimulation] = useState(false);
+
+  const viewSimulation = () => {
+    setShowSimulation(true);
+  }
 
   const simulateData = () => {
     // Simulate data based on the selected ranges
@@ -22,17 +29,10 @@ const Simulator = () => {
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000; // Assuming each entry is 1 second apart
+      lastTimestamp += 1000;
     }
 
-    const jsonOutput = JSON.stringify(simulatedData, null, 2);
-
-    const element = document.createElement('a');
-    const file = new Blob([jsonOutput], { type: 'text/plain' });
-    element.href = URL.createObjectURL(file);
-    element.download = 'simulated_data.json';
-    document.body.appendChild(element);
-    element.click();
+    setData(simulatedData);
   };
 
   return (
@@ -71,9 +71,19 @@ const Simulator = () => {
       </div>
       <div className="row" style={{ marginTop: "10px" }}>
         <div className="col">
+          <button className="btn btn-primary" onClick={viewSimulation}>View Simulation</button>
+        </div>
+        <div className="col">
           <button className="btn btn-primary" onClick={simulateData}>Download Json</button>
         </div>
       </div>
+      {showSimulation && (
+        <div className="row" style={{ marginTop: "10px" }}>
+          <div className="col">
+            <MyD3Chart data={data} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
