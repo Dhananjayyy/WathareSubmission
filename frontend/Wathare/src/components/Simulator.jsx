@@ -13,14 +13,14 @@ const Simulator = () => {
   }
 
   const simulateData = () => {
-    if (!startTime) {
+    const simulatedData = [];
+    const getDate = new Date(startTime);
+    const startTimeMillis = getDate.getMilliseconds();
+  
+    if (startTime === '') {
       alert('Please select valid start time.');
       return;
     }
-  
-    const simulatedData = [];
-    const getDate = new Date(startTime);
-    const startTimeMillis = getDate.getTime();
     let lastTimestamp = startTimeMillis;
   
     for (let i = 0; i < numEntries; i++) {
@@ -32,10 +32,9 @@ const Simulator = () => {
     }
   
     setData(simulatedData);
-    console.log("simulated data: " + JSON.stringify(simulatedData));
+    console.log("simulated data: "+JSON.stringify(simulatedData));
     setShowSimulation(true);
   };
-  
 
   return (
     <div>
