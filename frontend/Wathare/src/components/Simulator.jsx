@@ -2,7 +2,7 @@ import { useState } from "react";
 import MyD3Chart from "./MyD3Chart";
 
 const Simulator = () => {
-  const [startTime, setStartTime] = useState('');
+  const [startTime, setStartTime] = useState(null);
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
   const [data, setData] = useState(null);
@@ -13,7 +13,7 @@ const Simulator = () => {
   }
 
   const simulateData = () => {
-    if (startTime === '') {
+    if (!startTime) {
       alert('Please select a valid start time.');
       return;
     }
@@ -32,14 +32,19 @@ const Simulator = () => {
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000;
+      lastTimestamp += 1000; // Increment by 1 second
     }
-  
+
     setData(simulatedData);
-    console.log("simulated data: " + JSON.stringify(simulatedData));
     setShowSimulation(true);
   };
   
+  const calculateEndTime = () => {
+    if (!startTime) return null;
+    const endTime = new Date(startTime);
+    endTime.setSeconds(endTime.getSeconds() + numEntries);
+    return endTime.toISOString();
+  }
 
   return (
     <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
@@ -74,6 +79,10 @@ const Simulator = () => {
           <label className="form-label">Number of Entries:</label>
           <input type="number" className="form-control" value={numEntries} onChange={(e) => setNumEntries(parseInt(e.target.value))} />
         </div>
+        <div className="col">
+          <label className="form-label">End Time:</label>
+          <input type="text" className="form-control" value={calculateEndTime()} readOnly />
+        </div>
       </div>
       <div className="row" style={{ marginTop: "10px" }}>
         <div className="col">
@@ -82,8 +91,8 @@ const Simulator = () => {
         {showSimulation && (
           <div className="col" style={{ marginTop: "10px" }}>
             <MyD3Chart data={data} style={{ width: "100%" }} />
-        </div>
-      )}
+          </div>
+        )}
       </div>
     </div>
   );
