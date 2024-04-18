@@ -56,7 +56,8 @@ export default function Home() {
     <div className="">
         <h1>Wathare Infotech Solutions Submission</h1>
     </div>
-    <div className="">
+    <br/>
+    <div className="mt-2 mb-2">
         <button className="btn btn-light m-3" onClick={() => fetchData(1)}>1 hr</button>
         <button className="btn btn-primary m-3" onClick={() => fetchData(8)}>8 hr</button>
         <button className="btn btn-secondary m-3" onClick={() => fetchData(24)}>24 hr</button>
@@ -65,11 +66,13 @@ export default function Home() {
         <h2>Cycle Status</h2>
         {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
     </div>
-    <div className="">
+    <br/>
+    <div className="mt-2 mb-2">
         <h2>Temperature</h2>
         {loading ? <p>Loading...</p> : <LocationTemperature />}
     </div>
-    <div className="">
+    <br/>
+    <div className="mt-2 mb-2">
         <h2> Simulator </h2>
         <Simulator />
     </div>
