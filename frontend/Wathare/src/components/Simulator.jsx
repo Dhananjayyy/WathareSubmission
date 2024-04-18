@@ -12,30 +12,30 @@ const Simulator = () => {
     setShowSimulation(true);
   }
 
-  const simulateData = () => {
+  const simulateData = (startTime) => {
     const simulatedData = [];
-    //const startTimeMillis = new Date(startTime).getTime();
-    const getDate = new Date(startTime);
-    const startTimeMillis = getDate.getMilliseconds();
-  
-    if (!startTime) {
-      alert('Please select valid start time.');
-      return;
+    const startDate = new Date(startTime); // Parse the user-entered start time
+    const startTimeMillis = startDate.getTime(); // Get the start time in milliseconds
+
+    if (isNaN(startTimeMillis)) {
+        alert('Please enter a valid start time.');
+        return;
     }
     let lastTimestamp = startTimeMillis;
-  
+
     for (let i = 0; i < numEntries; i++) {
-      const timestamp = new Date(lastTimestamp).toISOString();
-      const machineStatus = Math.floor(Math.random() * 2);
-      const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
-      simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000;
+        const timestamp = new Date(lastTimestamp).toISOString();
+        const machineStatus = Math.floor(Math.random() * 2);
+        const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
+        simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
+        lastTimestamp += 1000;
     }
-  
+
     setData(simulatedData);
-    console.log("simulated data: "+JSON.stringify(simulatedData));
+    console.log("simulated data: " + JSON.stringify(simulatedData));
     setShowSimulation(true);
-  };
+};
+
 
   return (
     <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
