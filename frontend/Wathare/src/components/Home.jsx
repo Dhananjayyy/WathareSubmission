@@ -51,6 +51,8 @@ export default function Home() {
     });
   };
 
+  console.log("this is data: "+data);
+
   return (
     <div className="container mt-3 mb-3 text-center content-center">
     <div className="">
