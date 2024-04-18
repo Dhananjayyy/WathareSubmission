@@ -39,6 +39,7 @@ export default async function handler(req, res) {
 
     let filteredData = sensorData.filter(item => {
         const ts = new Date(item.ts);
+        console.log("ts: " + ts);
         switch (frequency) {
             case "hour":
                 return ts >= new Date(startTime) && ts < new Date(startTime + 60 * 60 * 1000);
