@@ -5,7 +5,7 @@ const Simulator = () => {
   const [startTime, setStartTime] = useState('');
   const [vibrationRange, setVibrationRange] = useState({ min: 500, max: 1000 });
   const [numEntries, setNumEntries] = useState(10);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [showSimulation, setShowSimulation] = useState(false);
 
   const viewSimulation = () => {
@@ -16,14 +16,14 @@ const Simulator = () => {
     // Simulate data based on the selected ranges
     const simulatedData = [];
     const startTimeMillis = new Date(startTime).getTime();
-
+  
     if (!startTime) {
       alert('Please select a valid start time.');
       return;
     }
-
+  
     let lastTimestamp = startTimeMillis;
-
+  
     for (let i = 0; i < numEntries; i++) {
       const timestamp = new Date(lastTimestamp).toISOString();
       const machineStatus = Math.floor(Math.random() * 2);
@@ -31,7 +31,7 @@ const Simulator = () => {
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
       lastTimestamp += 1000;
     }
-
+  
     setData(simulatedData);
   };
 

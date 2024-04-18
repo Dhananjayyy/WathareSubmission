@@ -51,7 +51,7 @@ export default function Home() {
     });
   };
 
-  console.log("this is data: "+data);
+  console.log("this is data: "+JSON.stringify(data));
 
   return (
     <div className="container mt-3 mb-3 text-center content-center">
