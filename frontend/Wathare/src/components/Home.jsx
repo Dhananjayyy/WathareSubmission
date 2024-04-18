@@ -111,7 +111,7 @@ export default function Home() {
       </div>
       <div>
         <h2>Cycle Status</h2>
-        {loading ? <p>Loading...</p> : <MyD3Chart data={filterData} />}
+        {loading ? <p>Loading...</p> : <MyD3Chart data={data} />}
       </div>
       <div>
         <h2>Temperature</h2>
