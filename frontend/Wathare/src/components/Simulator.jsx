@@ -38,7 +38,7 @@ const Simulator = () => {
   return (
     <div style={{ display: "block", justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
       <div className="row">
-        <div className="col-md-6">
+        <div className="col">
           <label className="form-label">Start Time:</label>
           <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
         </div>
