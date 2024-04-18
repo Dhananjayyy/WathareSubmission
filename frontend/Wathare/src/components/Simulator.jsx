@@ -35,8 +35,8 @@ const Simulator = () => {
   };
 
   return (
-    <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
-      <div className="row">
+    <div className="container text-center content-center" style={{ justifyContent: "center", width: "80%", margin: "auto", textAlign: "center" }}>
+ <div className="row">
         <div className="col">
           <label className="form-label">Start Time:</label>
           <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
@@ -74,7 +74,7 @@ const Simulator = () => {
         </div>
         {showSimulation && (
           <div className="col" style={{ marginTop: "10px" }}>
-            <MyD3Chart data={data} />
+            <MyD3Chart data={data} style={{ width: "100%" }} />
         </div>
       )}
       </div>
