@@ -6,75 +6,58 @@ import axios from "axios";
 
 export default function Home() {
   const [data, setData] = useState([]);
-  const [filterData, setFilterData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchData(24);
+    fetchData(24); // Default fetch for 24 hours data on component mount
   }, []);
 
   const fetchData = async (hours) => {
     setLoading(true);
     const startTime = "2024-01-21T15:00:00Z";
     let frequency;
-    if (hours === 1) {
-      frequency = "hour";
-    } else if (hours === 8) {
-      frequency = "eighthours";
-    } else if (hours === 24) {
-      frequency = "day";
-    } else {
-      frequency = null;
-    }
+    if (hours === 1) frequency = "hour";
+    else if (hours === 8) frequency = "eighthours";
+    else if (hours === 24) frequency = "day";
+    else return;  // Exit if no valid hours are provided
 
-    const fetchedData = (startTime, frequency) => {
-      const SERVERLESS_FUNCTION_URL = "/api/mongo-proxy";
-      let totaldata = null;
-      axios
-        .post(SERVERLESS_FUNCTION_URL)
-        .then(function (response) {
-          totaldata = response.data.documents;
-          console.log(response.data.documents);
-          setData(response.data.documents);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-      return totaldata;
-    };
-
+    const SERVERLESS_FUNCTION_URL = "/api/mongo-proxy";
     try {
-      const fetchedDataResult = fetchedData(startTime, frequency);
-      setData(fetchedDataResult);
-      setLoading(false);
+      const response = await axios.post(SERVERLESS_FUNCTION_URL, { startTime, frequency });
+      const filteredData = filterData(response.data.documents, frequency, startTime);
+      setData(filteredData);
     } catch (error) {
       console.error("Failed to fetch data", error);
+    } finally {
       setLoading(false);
     }
+  };
+
+  const filterData = (sensorData, frequency, startTime) => {
+    const start = new Date(startTime);
+    const endTimes = {
+      hour: new Date(start.getTime() + 60 * 60 * 1000),
+      eighthours: new Date(start.getTime() + 8 * 60 * 60 * 1000),
+      day: new Date(start.getTime() + 24 * 60 * 60 * 1000),
+      week: new Date(start.getTime() + 7 * 24 * 60 * 60 * 1000),
+    };
+    return sensorData.filter(item => {
+      const ts = new Date(item.ts);
+      if (frequency === 'month') {
+        return ts.getFullYear() === start.getFullYear() && ts.getMonth() === start.getMonth();
+      } else {
+        return ts >= start && ts < (endTimes[frequency] || start);
+      }
+    });
   };
 
   return (
     <div className="container mt-3 mb-3 text-center content-center">
       <h1>Wathare Infotech Solutions Submission</h1>
       <div>
-        <button
-          className="btn btn-outline-primary m-2"
-          onClick={() => fetchData(1)}
-        >
-          1 hr
-        </button>
-        <button
-          className="btn btn-outline-primary m-2"
-          onClick={() => fetchData(8)}
-        >
-          8 hr
-        </button>
-        <button
-          className="btn btn-outline-primary m-2"
-          onClick={() => fetchData(24)}
-        >
-          24 hr
-        </button>
+        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(1)}>1 hr</button>
+        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(8)}>8 hr</button>
+        <button className="btn btn-outline-primary m-2" onClick={() => fetchData(24)}>24 hr</button>
       </div>
       <div>
         <h2>Cycle Status</h2>
