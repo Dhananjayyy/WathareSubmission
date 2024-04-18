@@ -33,18 +33,22 @@ export default function Home() {
       axios
         .post(SERVERLESS_FUNCTION_URL)
         .then(function (response) {
-          setData(response.data.documents);
+          totaldata = response.data.documents;
         })
         .catch(function (error) {
           console.log(error);
         });
+      return totaldata;
     };
 
     try {
+      const fetchedDataResult = fetchedData(startTime, frequency);
+      setData(fetchedDataResult);
 
-      var sensorData = data;
 
-      console.log(sensorData.toString());
+      var sensorData = fetchedDataResult;
+
+      console.log(sensorData)
 
       let filteredData = sensorData.filter(item => {
           const ts = new Date(item.ts);
