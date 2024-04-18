@@ -15,6 +15,8 @@ const Simulator = () => {
   const simulateData = () => {
     const simulatedData = [];
     const startTimeMillis = new Date(startTime).getTime();
+
+    console.log("start time: "+new Date(startTime));
   
     if (!startTime) {
       alert('Please select valid start time.');
