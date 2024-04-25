@@ -7,6 +7,7 @@ const Simulator = () => {
   const [numEntries, setNumEntries] = useState(10);
   const [data, setData] = useState(null);
   const [showSimulation, setShowSimulation] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const viewSimulation = () => {
     setShowSimulation(true);
@@ -14,44 +15,46 @@ const Simulator = () => {
 
   const simulateData = () => {
     if (!startTime) {
-      alert('Please select a valid start time.');
+      setErrorMessage('Please select a valid start time.');
       return;
     }
   
     const startTimeMillis = new Date(startTime).getTime();
     if (isNaN(startTimeMillis)) {
-      alert('Invalid start time. Please select a valid date and time.');
+      setErrorMessage('Invalid start time. Please select a valid date and time.');
       return;
     }
   
     const simulatedData = [];
     let lastTimestamp = startTimeMillis;
+    const interval = (numEntries > 1) ? (startTimeMillis + 1000 - lastTimestamp) / (numEntries - 1) : 0;
   
     for (let i = 0; i < numEntries; i++) {
       const timestamp = new Date(lastTimestamp).toISOString();
       const machineStatus = Math.floor(Math.random() * 2);
       const vibration = Math.floor(Math.random() * (vibrationRange.max - vibrationRange.min) + vibrationRange.min);
       simulatedData.push({ ts: timestamp, machine_status: machineStatus, vibration: vibration });
-      lastTimestamp += 1000;
+      lastTimestamp += interval;
     }
 
     setData(simulatedData);
     setShowSimulation(true);
+    setErrorMessage("");
   };
   
   const calculateEndTime = () => {
     if (!startTime) return null;
     const endTime = new Date(startTime);
-    endTime.setSeconds(endTime.getSeconds() + numEntries);
+    endTime.setSeconds(endTime.getSeconds() + numEntries - 1);
     return endTime.toISOString();
   }
 
   return (
-    <div className="container text-center content-center" style={{justifyContent: "center", width: "50%", margin: "auto", textAlign: "center" }}>
+    <div className="container text-center" style={{ width: "50%", margin: "auto", textAlign: "center" }}>
       <div className="row">
         <div className="col">
           <label className="form-label">Start Time:</label>
-          <input type="datetime-local" className="form-control" value={startTime} onChange={(e) => setStartTime(e.target.value)} />
+          <input type="datetime-local" className="form-control" value={startTime || ''} onChange={(e) => setStartTime(e.target.value)} />
         </div>
       </div>
       <div className="row" style={{ marginTop: "10px" }}>
@@ -87,6 +90,7 @@ const Simulator = () => {
       <div className="row" style={{ marginTop: "10px" }}>
         <div className="col">
           <button className="btn btn-primary" onClick={simulateData}>View Simulation</button>
+          {errorMessage && <p className="text-danger">{errorMessage}</p>}
         </div>
         {showSimulation && (
           <div className="col" style={{ marginTop: "10px" }}>
