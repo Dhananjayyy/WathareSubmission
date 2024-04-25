@@ -30,6 +30,7 @@ export default function Home() {
         startTime
       );
       setData(filteredData);
+      console.log("the data looks like: " + JSON.stringify(filteredData));
     } catch (error) {
       console.error("Failed to fetch data", error);
     } finally {

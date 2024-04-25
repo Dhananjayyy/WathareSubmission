@@ -38,6 +38,7 @@ const Simulator = () => {
     }
 
     setData(simulatedData);
+    console.log("simulate data looks like: " + JSON.stringify(data));
     setShowSimulation(true);
     setErrorMessage("");
   };
